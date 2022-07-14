@@ -1,17 +1,29 @@
-import React from 'react';
+import * as React from 'react';
 import styled from 'styled-components';
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { getMarkerProps, MAP_MARKER_STATUS } from '../helpers/map';
+import { getMarkerProps, MAP_MARKER_STATUS } from '../../../helpers/map';
 import { faMapMarker } from '@fortawesome/free-solid-svg-icons';
+
+interface MarkerProps {
+  selected: boolean;
+  onClick: React.MouseEventHandler<HTMLDivElement>;
+  type: string;
+  lat: string;
+  lng: string;
+}
+
+interface StyledMarkerProps {
+  selected: boolean;
+}
 
 const StyledMarker = styled(FontAwesomeIcon)`
   position: relative;
   transition: all 0.3s ease;
-  z-index: ${props => (props.selected ? '1000' : '2')};
+  z-index: ${(props: StyledMarkerProps) => (props.selected ? '1000' : '2')};
 `;
 
-function Marker(props) {
+function IconMarker(props: MarkerProps) {
   const { type, selected, onClick } = props;
   const { icon, color } = getMarkerProps(type);
   return (
@@ -38,4 +50,4 @@ function Marker(props) {
   );
 }
 
-export default Marker;
+export default IconMarker;

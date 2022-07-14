@@ -1,14 +1,43 @@
 import { useState, useEffect } from 'react';
 
-const defaultSettings = {
+export interface usePositionArgs {
+  watch: boolean;
+  settings: DefaultSettings;
+}
+
+interface DefaultSettings {
+  enableHighAccuracy?: boolean;
+  timeout?: number;
+  maximumAge?: number;
+}
+
+interface Position {
+  latitude?: string;
+  longitude?: string;
+  accuracy?: string;
+  timestamp?: string;
+}
+
+interface PositionValues {
+  latitude?: string;
+  longitude?: string;
+  accuracy?: string;
+  timestamp?: string;
+  error?: string;
+}
+
+const defaultSettings: DefaultSettings = {
   enableHighAccuracy: false,
   timeout: Infinity,
   maximumAge: 0,
 };
 
-export const usePosition = (watch = false, settings = defaultSettings) => {
-  const [position, setPosition] = useState({});
-  const [error, setError] = useState(null);
+export function usePosition<usePositionArgs>(
+  watch = false,
+  settings = defaultSettings
+): PositionValues {
+  const [position, setPosition] = useState<Position>({});
+  const [error, setError] = useState<string>('');
 
   const onChange = ({ coords, timestamp }) => {
     setPosition({
@@ -19,7 +48,7 @@ export const usePosition = (watch = false, settings = defaultSettings) => {
     });
   };
 
-  const onError = error => {
+  const onError = (error) => {
     setError(error.message);
   };
 
@@ -41,4 +70,4 @@ export const usePosition = (watch = false, settings = defaultSettings) => {
   }, [settings]);
 
   return { ...position, error };
-};
+}

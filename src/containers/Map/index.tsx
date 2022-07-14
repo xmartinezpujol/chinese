@@ -1,20 +1,19 @@
-import React from 'react';
+import * as React from 'react';
 
 import GoogleMapReact from 'google-map-react';
-import Marker from '../../../components/Marker';
+import UserMarker from '../../components/Marker/UserMarker';
+import IconMarker from '../../components/Marker/IconMarker';
+import { MAP_ICON_MARKERS } from '../../helpers/map';
+import MapStyles from '../../config/MapStyles';
+import { usePosition, usePositionArgs } from '../../hooks/usePosition';
 
-import MapStyles from '../../../config/MapStyles';
 const DEFAULT_ZOOM = 15;
 const API_KEY = 'AIzaSyCzeXJiOZHF9bq0KOPFvnHZi0xHAOCfXdc';
-
-import { usePosition } from '../../../hooks/use-position';
-import { MAP_ICON_MARKERS } from '../../../helpers/map';
-import UserMarker from '../../../components/UserMarker';
 
 function Map(props) {
   const { center, selectedId, onMarkerClick } = props;
   const entities = [];
-  const { latitude, longitude } = usePosition(true, {
+  const { latitude, longitude } = usePosition<usePositionArgs>(true, {
     enableHighAccuracy: true,
   });
 
@@ -29,8 +28,8 @@ function Map(props) {
         fullscreenControl: false,
       }}
     >
-      {entities.map(entity => (
-        <Marker
+      {entities.map((entity) => (
+        <IconMarker
           onClick={() => {
             const entityId = entity.node.id;
             onMarkerClick(entityId);
