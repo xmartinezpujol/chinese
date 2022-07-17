@@ -67,7 +67,7 @@ export function usePosition<usePositionArgs>(
     }
 
     return () => watcher && geo.clearWatch(watcher);
-  }, [settings]);
+  }, [settings.enableHighAccuracy, settings.timeout, settings.maximumAge]);
 
   return { ...position, error };
 }

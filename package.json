@@ -8,6 +8,7 @@
     "@fortawesome/fontawesome-svg-core": "^6.1.1",
     "@fortawesome/free-solid-svg-icons": "^6.1.1",
     "@fortawesome/react-fontawesome": "^0.2.0",
+    "@uiw/react-baidu-map": "^2.4.0",
     "babel-plugin-styled-components": "^2.0.7",
     "gatsby": "^4.18.1",
     "gatsby-plugin-gatsby-cloud": "^4.18.1",
@@ -24,8 +25,8 @@
     "gatsby-transformer-sharp": "^4.18.1",
     "gatsby-transformer-yaml": "^4.18.0",
     "google-map-react": "^2.2.0",
-    "react": "^18.1.0",
-    "react-dom": "^18.1.0",
+    "react": "17.0.2",
+    "react-dom": "17.0.2",
     "react-helmet": "^6.1.0",
     "sharp": "^0.30.7"
   },

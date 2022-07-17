@@ -37,32 +37,33 @@ module.exports = {
     {
       resolve: 'gatsby-source-mongodb',
       options: {
-        connectionString: "mongodb+srv://xmartinezpujol:bluesky87@cluster0.ehfaim6.mongodb.net",
+        connectionString:
+          'mongodb+srv://xmartinezpujol:bluesky87@cluster0.ehfaim6.mongodb.net',
         dbName: 'chinese',
         collection: 'hanzi',
         server: {
           address: 'cluster0.ehfaim6.mongodb.net',
-          port: 27017
+          port: 27017,
         },
         auth: {
           user: 'xmartinezpujol',
-          password: 'bluesky87'
+          password: 'bluesky87',
         },
         extraParams: {
           replicaSet: 'ac-xmszyjb-shard-00-01.ehfaim6.mongodb.net',
           ssl: true,
           authSource: 'admin',
-          retryWrites: true
-        }
-      }
+          retryWrites: true,
+        },
+      },
     },
     {
       resolve: 'gatsby-plugin-web-font-loader',
       options: {
         google: {
-          families: ['Poppins'],
+          families: ['Poppins', 'Noto Sans SC'],
         },
       },
     },
   ],
-}
+};

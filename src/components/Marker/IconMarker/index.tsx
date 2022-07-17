@@ -9,8 +9,8 @@ interface MarkerProps {
   selected: boolean;
   onClick: React.MouseEventHandler<HTMLDivElement>;
   type: string;
-  lat: string;
-  lng: string;
+  lat: number;
+  lng: number;
 }
 
 interface StyledMarkerProps {

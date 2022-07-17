@@ -6,7 +6,10 @@ import Layout from '../components/core/Layout';
 
 import Map from '../containers/Map';
 
-import { useState } from 'react';
+import { useMemo, useState } from 'react';
+import { usePlaces } from '../hooks/usePlaces';
+import { usePosition, usePositionArgs } from '../hooks/usePosition';
+import WordList from '../containers/WordList';
 
 const MapContainer = styled.div`
   display: flex;
@@ -19,37 +22,49 @@ const MapContainer = styled.div`
 
 const Index: React.FC = () => {
   const [selected, setSelected] = useState(null);
-  const [cordinates, setCordinates] = useState({
-    lat: 41.390205,
-    lng: 2.154007,
+  const [selectedPosition, setSelectedPosition] = useState(null);
+  const [isDetailOpen, setDetailOpen] = useState(false);
+  const [locations, setLocations] = useState([]);
+  const { latitude, longitude } = usePosition<usePositionArgs>(true, {
+    enableHighAccuracy: true,
   });
+  const places = usePlaces();
+
+  const userPosition = useMemo(() => {
+    return {
+      lat: latitude,
+      lng: longitude,
+    };
+  }, [latitude, longitude]);
 
   function handleCenterMap(coordinate) {
-    setCordinates({
-      lat: coordinate.latitude,
-      lng: coordinate.longitude,
+    setSelectedPosition({
+      lat: coordinate.lat,
+      lng: coordinate.lng,
     });
   }
 
-  function handleSelected(selectedId) {
-    setSelected({
-      selectedId,
-      isDetailOpen: false,
-    });
+  function handleSelected(selectedId, coordinates) {
+    setSelected(selectedId);
+    setDetailOpen(true);
+    handleCenterMap(coordinates);
   }
 
-  function handleOnMarkerClick(entityId) {
-    this.handleSelected(entityId);
+  function handleOnMarkerClick(entityId, coordinates) {
+    handleSelected(entityId, coordinates);
   }
 
   return (
     <Layout>
       <SEO title="Home" />
       <MapContainer>
+        {isDetailOpen && <WordList list={places.nodes} />}
         <Map
-          center={cordinates}
+          center={selectedPosition ? selectedPosition : userPosition}
           selectedId={selected}
           onMarkerClick={handleOnMarkerClick}
+          places={places.nodes}
+          userPosition={userPosition}
         />
       </MapContainer>
     </Layout>

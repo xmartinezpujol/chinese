@@ -1,4 +1,4 @@
-import { faCoffee } from '@fortawesome/free-solid-svg-icons';
+import { faCoffee, faTree } from '@fortawesome/free-solid-svg-icons';
 import { faUtensils } from '@fortawesome/free-solid-svg-icons';
 import { faStoreAlt } from '@fortawesome/free-solid-svg-icons';
 import { faRecycle } from '@fortawesome/free-solid-svg-icons';
@@ -7,7 +7,7 @@ export const MAP_ICON_MARKERS = {
   COFFEE: 'Coffee Shop',
   RESTAURANT: 'Restaurant',
   SHOP: 'Shop',
-  GREENPOINT: 'Green point',
+  NOUN: 'noun',
 };
 
 const MAP_COLOR_MARKERS = {
@@ -37,9 +37,9 @@ function getMarkerProps(type) {
       props.color = MAP_COLOR_MARKERS.BLUE;
       props.icon = faUtensils;
       break;
-    case MAP_ICON_MARKERS.GREENPOINT:
+    case MAP_ICON_MARKERS.NOUN:
       props.color = MAP_COLOR_MARKERS.GREEN;
-      props.icon = faRecycle;
+      props.icon = faTree;
       break;
     default:
       props.color = MAP_COLOR_MARKERS.ORANGE;
@@ -55,18 +55,18 @@ function filterEntities(entities, filters) {
   }
 
   if (filters.types.length > 0) {
-    const filterEntitiesByType = entities.filter(node => {
+    const filterEntitiesByType = entities.filter((node) => {
       return filters.types.includes(node.node.data.type);
     });
     if (filters.tags.length === 0) {
       return filterEntitiesByType;
     }
-    return filterEntitiesByType.filter(node =>
-      node.node.tags.some(tag => filters.tags.includes(tag))
+    return filterEntitiesByType.filter((node) =>
+      node.node.tags.some((tag) => filters.tags.includes(tag))
     );
   }
-  return entities.filter(node =>
-    node.node.tags.some(tag => filters.tags.includes(tag))
+  return entities.filter((node) =>
+    node.node.tags.some((tag) => filters.tags.includes(tag))
   );
 }
 

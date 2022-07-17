@@ -5,17 +5,30 @@ import UserMarker from '../../components/Marker/UserMarker';
 import IconMarker from '../../components/Marker/IconMarker';
 import { MAP_ICON_MARKERS } from '../../helpers/map';
 import MapStyles from '../../config/MapStyles';
-import { usePosition, usePositionArgs } from '../../hooks/usePosition';
+import { PlacesQueryResult } from '../../hooks/usePlaces';
 
 const DEFAULT_ZOOM = 15;
 const API_KEY = 'AIzaSyCzeXJiOZHF9bq0KOPFvnHZi0xHAOCfXdc';
 
-function Map(props) {
-  const { center, selectedId, onMarkerClick } = props;
-  const entities = [];
-  const { latitude, longitude } = usePosition<usePositionArgs>(true, {
-    enableHighAccuracy: true,
-  });
+interface MapProps {
+  center: {
+    lat: number;
+    lng: number;
+  };
+  userPosition: {
+    lat: string;
+    lng: string;
+  };
+  selectedId: string;
+  onMarkerClick: (
+    id: string,
+    coordinates: { lat: number; lng: number }
+  ) => void;
+  places: PlacesQueryResult[];
+}
+
+function Map(props: MapProps) {
+  const { center, selectedId, onMarkerClick, userPosition, places } = props;
 
   return (
     <GoogleMapReact
@@ -28,24 +41,20 @@ function Map(props) {
         fullscreenControl: false,
       }}
     >
-      {entities.map((entity) => (
+      {places.map((entity) => (
         <IconMarker
           onClick={() => {
-            const entityId = entity.node.id;
-            onMarkerClick(entityId);
+            const entityId = entity.id;
+            onMarkerClick(entityId, entity.coordinates);
           }}
-          selected={entity.node.id === selectedId}
-          type={
-            entity.node.data.type
-              ? entity.node.data.type
-              : MAP_ICON_MARKERS.GREENPOINT
-          }
-          key={entity.node.id}
-          lat={entity.node.data.location.latitude}
-          lng={entity.node.data.location.longitude}
+          selected={entity.id === selectedId}
+          type={entity.type ? entity.type : MAP_ICON_MARKERS.GREENPOINT}
+          key={entity.id}
+          lat={entity.coordinates.lat}
+          lng={entity.coordinates.lng}
         />
       ))}
-      <UserMarker lat={latitude} lng={longitude} />
+      <UserMarker lat={userPosition.lat} lng={userPosition.lng} />
     </GoogleMapReact>
   );
 }
