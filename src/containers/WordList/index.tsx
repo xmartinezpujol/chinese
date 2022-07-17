@@ -13,6 +13,9 @@ import {
 } from '@fortawesome/free-solid-svg-icons';
 import { ColorPalette } from '../../constant';
 import FlexContainer from '../../components/core/FlexContainer';
+import { useDispatch, useSelector } from 'react-redux';
+import { RootState } from '../../redux/store';
+import { setFilter } from '../../redux/modules/filters';
 
 interface WordListProps {
   list: Hanzi[];
@@ -26,15 +29,19 @@ enum Action {
 function WordList(props: WordListProps): JSX.Element {
   const { list } = props;
   const [selected, setSelected] = useState(0);
+  const { text } = useSelector((state: RootState) => state.filters);
+  const dispatch = useDispatch();
 
   function handleAction(action: Action) {
     if (action === Action.Prev && selected !== 0) {
       setSelected(selected - 1);
+      dispatch(setFilter(''));
       return;
     }
 
     if (action === Action.Next && selected + 1 < list.length) {
       setSelected(selected + 1);
+      dispatch(setFilter(''));
     }
   }
 
@@ -44,6 +51,8 @@ function WordList(props: WordListProps): JSX.Element {
         key={list[selected].id}
         data={list[selected]}
         index={selected}
+        source={list}
+        selected={text}
       />
       <FlexContainer justify="space-between" style={{ width: '100%' }}>
         <Button

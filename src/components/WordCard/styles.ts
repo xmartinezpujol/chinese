@@ -6,12 +6,6 @@ const WordCardContainer = styled(FlexContainer)`
   margin-top: 30px;
 `;
 
-const WordName = styled.span`
-  font-size: 50px;
-  font-weight: 400;
-  font-family: 'Noto Sans SC';
-`;
-
 const WordPhonetic = styled.span`
   font-size: 30px;
   font-weight: 400;
@@ -27,7 +21,6 @@ const WordPhoneticWrapper = styled(FlexContainer)`
 `;
 
 const WordTranslation = styled.span`
-  font-size: 40px;
   font-weight: 400;
   font-family: 'Poppins';
 `;
@@ -41,12 +34,30 @@ const WordType = styled.span`
   margin-top: 20px;
 `;
 
+const WordHanziSelectedWrapper = styled(FlexContainer)`
+  position: absolute;
+  background-color: ${ColorPalette.WHITE};
+  border-radius: 10px;
+  width: 300px;
+  height: 200px;
+  z-index: 20000;
+  top: -210px;
+  right: 0px;
+`;
+
+const WordSelected = styled.span`
+  font-size: 40px;
+  font-weight: 400;
+  font-family: 'Noto Sans SC';
+`;
+
 export {
-  WordName,
   WordPhonetic,
   WordPhoneticWrapper,
   WordTranslation,
   WordType,
+  WordHanziSelectedWrapper,
+  WordSelected,
 };
 
 export default WordCardContainer;
