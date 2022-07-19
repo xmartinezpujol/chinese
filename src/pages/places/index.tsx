@@ -1,10 +1,10 @@
 import * as React from 'react';
 import styled from 'styled-components';
 
-import SEO from '../components/core/Seo';
-import Layout from '../components/core/Layout';
+import SEO from '../../components/core/Seo';
+import Layout from '../../components/core/Layout';
 
-import WordList from '../containers/WordList';
+import WordList from '../../containers/WordList';
 
 const CardsContainer = styled.div`
   display: flex;
@@ -16,10 +16,10 @@ const CardsContainer = styled.div`
   right: 0;
 `;
 
-const Index: React.FC = () => {
+const Places: React.FC = () => {
   return (
     <Layout>
-      <SEO title="Home" />
+      <SEO title="Places" />
       <CardsContainer>
         <WordList />
       </CardsContainer>
@@ -27,4 +27,4 @@ const Index: React.FC = () => {
   );
 };
 
-export default Index;
+export default Places;

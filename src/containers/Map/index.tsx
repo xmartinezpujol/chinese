@@ -39,6 +39,9 @@ function Map(props: MapProps) {
       options={{
         styles: MapStyles,
         fullscreenControl: false,
+        zoomControlOptions: {
+          position: 6,
+        },
       }}
     >
       {places.map((entity) => (
