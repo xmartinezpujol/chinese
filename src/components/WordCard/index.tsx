@@ -1,22 +1,23 @@
 import * as React from 'react';
 import { Hanzi } from '../../types/xpolore';
 import { WordHanziSelectedWrapper } from './styles';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { setFilter } from '../../redux/modules/filters';
 import { useEffect, useState } from 'react';
 import WordContent from './WordContent';
+import { RootState } from '../../redux/store';
 
 interface WordCardProps {
   data: Hanzi;
   index: number;
-  source?: Hanzi[];
   selected: string;
 }
 
 function WordCard(props: WordCardProps): JSX.Element {
-  const { data, index, source, selected } = props;
+  const { data, index, selected } = props;
   const [wordSelected, setWordSelected] = useState<Hanzi | null>(null);
   const dispatch = useDispatch();
+  const { collection } = useSelector((state: RootState) => state.hanzis);
 
   function handleHanziSelection(e, hanzi: string) {
     if (data.name !== hanzi) {
@@ -27,7 +28,7 @@ function WordCard(props: WordCardProps): JSX.Element {
 
   useEffect(() => {
     if (selected && selected !== '') {
-      const wordSelected = source.find((word) => word.name === selected);
+      const wordSelected = collection.find((word) => word.name === selected);
 
       if (wordSelected) {
         setWordSelected(wordSelected);

@@ -23,9 +23,14 @@ function WordContent(props: WordContentProps) {
   const { data, onHanziClick, index, hide = null } = props;
   const lang = 'en';
 
-  function formatWordStyle(length: number) {
+  function formatWordStyle(words: string[]) {
+    const { length } = words;
     switch (length) {
       case 1:
+        if (words[0].length > 10) {
+          return 25;
+        }
+
         return 40;
       case 2:
         return 30;
@@ -37,7 +42,7 @@ function WordContent(props: WordContentProps) {
   function formatTranslations(translations: string) {
     const words = translations.split(',');
     return words.map((word) => (
-      <WordTranslation style={{ fontSize: formatWordStyle(words.length) }}>
+      <WordTranslation key={word} style={{ fontSize: formatWordStyle(words) }}>
         {word}
       </WordTranslation>
     ));

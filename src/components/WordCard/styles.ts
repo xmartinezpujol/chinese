@@ -21,6 +21,7 @@ const WordPhoneticWrapper = styled(FlexContainer)`
 `;
 
 const WordTranslation = styled.span`
+  text-align: center;
   font-weight: 400;
   font-family: 'Poppins';
 `;
