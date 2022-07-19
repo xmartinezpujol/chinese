@@ -12,27 +12,31 @@ const FAB = ({ actions }) => {
   const [open, setOpen] = useState(false);
   const width = useCurrentWidth();
 
-  const mouseEnter = () => setOpen(true);
-
-  const mouseLeave = () => setOpen(false);
+  function handleAction(action) {
+    setOpen(false);
+    action.onClick();
+  }
 
   return (
     <>
-      <div className={cn('backdrop', { open })} />
-      <ul
-        className={cn('fab-container', { open })}
-        onMouseEnter={mouseEnter}
-        onMouseLeave={mouseLeave}
-      >
+      <div
+        className={cn('backdrop', { open })}
+        onClick={() => open && setOpen(false)}
+      />
+      <ul className={cn('fab-container', { open })}>
         <li className="fab-button">
-          <FontAwesomeIcon icon={faPlus} color={ColorPalette.DARK_BLUE_2} />
+          <FontAwesomeIcon
+            icon={faPlus}
+            color={ColorPalette.DARK_BLUE_2}
+            onClick={() => setOpen(!open)}
+          />
         </li>
         {actions.map((action, index) => (
           <li
             style={{ transitionDelay: `${index * 25}ms` }}
             className={cn('fab-action', { open })}
             key={action.label}
-            onClick={action.onClick}
+            onClick={() => handleAction(action)}
           >
             {action.icon}
             <span
