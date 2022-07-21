@@ -1,5 +1,6 @@
-import { createSlice } from '@reduxjs/toolkit';
+import { createSelector, createSlice } from '@reduxjs/toolkit';
 import { Hanzi } from '../../types/xpolore';
+import { RootState } from '../store';
 
 export interface HanziState {
   collection: Hanzi[];
@@ -19,6 +20,14 @@ export const socketSlice = createSlice({
   },
   extraReducers: {},
 });
+
+export const sortedByEnHanzis = createSelector(
+  (state: RootState) => state.hanzis.collection,
+  (hanzis) =>
+    [...hanzis].sort((a, b) =>
+      a?.translation?.en > b?.translation?.en ? 1 : -1
+    )
+);
 
 export const { setCollection } = socketSlice.actions;
 

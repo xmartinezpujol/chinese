@@ -47,7 +47,7 @@ const Layout = ({ children }) => {
           color={ColorPalette.DARK_BLUE_2}
         />
       ),
-      onClick: () => navigate('/places/'),
+      onClick: () => navigate('/places/restaurant'),
     },
   ];
 

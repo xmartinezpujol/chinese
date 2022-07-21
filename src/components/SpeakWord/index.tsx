@@ -6,9 +6,12 @@ import { ColorPalette } from '../../constant';
 
 interface SpeakButtonProps {
   value: any;
+  style?: any;
 }
 
 function SpeakButton(props: SpeakButtonProps) {
+  const { style } = props;
+
   function getVoices() {
     return new Promise((resolve) => {
       let voices = speechSynthesis.getVoices();
@@ -47,6 +50,7 @@ function SpeakButton(props: SpeakButtonProps) {
       padding="10px 20px 5px 20px"
       onClick={handleOnClick}
       backgroundColor="transparent"
+      style={style}
     >
       <FontAwesomeIcon
         icon={faVolumeHigh}

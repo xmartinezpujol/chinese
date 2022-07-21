@@ -2,6 +2,13 @@ import { createSlice } from '@reduxjs/toolkit';
 
 const initialState = {
   text: '',
+  context: {
+    mode: null,
+    category: {
+      value: 'restaurant',
+      label: 'Restaurant',
+    },
+  },
 };
 
 export const socketSlice = createSlice({
@@ -11,10 +18,13 @@ export const socketSlice = createSlice({
     setFilter: (state, action) => {
       state.text = action.payload;
     },
+    setContext: (state, action) => {
+      state.context = action.payload;
+    },
   },
   extraReducers: {},
 });
 
-export const { setFilter } = socketSlice.actions;
+export const { setFilter, setContext } = socketSlice.actions;
 
 export default socketSlice.reducer;
