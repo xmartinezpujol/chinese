@@ -2,17 +2,15 @@ import * as React from 'react';
 
 import Layout from '../components/core/Layout';
 import Seo from '../components/core/Seo';
-import { ColorPalette } from '../constant';
 import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from '../redux/store';
 import { setContext } from '../redux/modules/filters';
 import { navigate } from 'gatsby';
 import styled from 'styled-components';
 import FlexContainer from '../components/core/FlexContainer';
-import DropDown from '../components/core/Form/Dropdown';
-import Button from '../components/core/Button/Button';
 import VocabularyList from '../containers/VocabularyList';
 import SentencesList from '../containers/SentencesList';
+import Category, { SelectedOption } from '../components/Category';
 
 interface Option {
   value: string;
@@ -24,7 +22,10 @@ enum Mode {
   'Sentences' = 'sentences',
 }
 
-const modes: Mode[] = [Mode.Vocabulary, Mode.Sentences];
+const modes: Option[] = [
+  { value: Mode.Vocabulary, label: 'Vocabulary' },
+  { value: Mode.Sentences, label: 'Sentences' },
+];
 
 const Places = () => {
   const dispatch = useDispatch();
@@ -32,21 +33,22 @@ const Places = () => {
 
   const CardsContainer = styled.div`
     display: flex;
-    background-image: linear-gradient(to right, #0f0c29, #302b63, #24243e);
+    flex-direction: column;
     width: 100%;
     height: 100%;
-    position: absolute;
-    top: 0;
-    right: 0;
   `;
 
   const CategoriesContainer = styled(FlexContainer)``;
 
   const ContextSelector = styled(FlexContainer)`
-    position: absolute;
-    margin-top: 20px;
+    position: sticky;
+    z-index: 40000;
+    top: 0;
+    left: 0;
+    margin-top: 0px;
     width: 100%;
     justify-content: center;
+    background-image: linear-gradient(to right, #0f0c29, #302b63, #24243e);
   `;
 
   const options = [
@@ -56,65 +58,35 @@ const Places = () => {
     { value: 'supermarket', label: 'Supermarket' },
   ];
 
-  function handlePlaceSelection(value: Option) {
+  function handlePlaceSelection(value: SelectedOption) {
     dispatch(
       setContext({
-        mode: context.mode,
-        category: value,
+        mode: value.mode,
+        category: value.category,
       })
     );
-    navigate(`/places/${value.value}`);
-  }
-
-  function handleModeSelection(mode: Mode) {
-    dispatch(
-      setContext({
-        mode,
-        category: context.category,
-      })
-    );
-    navigate(`/places/${context.category.value}`);
+    navigate(`/places/${value.category.value}`);
   }
 
   return (
     <Layout>
-      {console.log('rerender')}
       <Seo title={`Place - ${context.category.label}`} />
       <CardsContainer>
         <ContextSelector>
-          <DropDown
-            width="200px"
-            selectedValue={context.category}
-            values={options}
-            onChange={(value: Option) => handlePlaceSelection(value)}
+          <Category
+            options={options}
+            modes={modes}
+            onChange={handlePlaceSelection}
+            defaultValue={context.category}
+            defaultMode={{
+              value: context.mode.value,
+              label: context.mode.label,
+            }}
           />
         </ContextSelector>
-        <CategoriesContainer
-          fluid
-          align="flex-end"
-          justify="space-between"
-          padding="10px 0px 140px 0px"
-        >
-          {context.mode === null &&
-            modes.map((mode) => (
-              <Button
-                key={mode}
-                style={{
-                  width: 'calc(50% - 5px)',
-                  justifyContent: 'center',
-                  height: 120,
-                  fontSize: 20,
-                }}
-                backgroundColor={ColorPalette.WHITE}
-                backgroundHoverColor={ColorPalette.MID_GREY}
-                textHoverColor={ColorPalette.GREEN}
-                onClick={() => handleModeSelection(mode)}
-              >
-                {mode}
-              </Button>
-            ))}
-          {context.mode === Mode.Vocabulary && <VocabularyList />}
-          {context.mode === Mode.Sentences && <SentencesList />}
+        <CategoriesContainer fluid align="flex-end" justify="space-between">
+          {context.mode.value === Mode.Vocabulary && <VocabularyList />}
+          {context.mode.value === Mode.Sentences && <SentencesList />}
         </CategoriesContainer>
       </CardsContainer>
     </Layout>

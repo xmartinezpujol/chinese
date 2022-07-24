@@ -3,7 +3,10 @@ import { createSlice } from '@reduxjs/toolkit';
 const initialState = {
   text: '',
   context: {
-    mode: null,
+    mode: {
+      value: 'vocabulary',
+      label: 'Vocabulary',
+    },
     category: {
       value: 'restaurant',
       label: 'Restaurant',
