@@ -57,9 +57,7 @@ const Layout = ({ children }) => {
 
   return (
     <>
-      <main style={{ position: 'absolute', height: '100%', width: '100%' }}>
-        {children}
-      </main>
+      <main>{children}</main>
       <FAB actions={actions} />
       <footer />
     </>

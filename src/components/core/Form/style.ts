@@ -16,6 +16,7 @@ export const StyledLabel = styled.label`
 
 export const StyledInput = styled.input`
   padding: 12px;
+  font-size: 16px;
   border-radius: 10px;
   color: rgb(51, 51, 51);
   border: 1px solid ${ColorPalette.MID_GREY};
