@@ -24,12 +24,8 @@ const FAB = ({ actions }) => {
         onClick={() => open && setOpen(false)}
       />
       <ul className={cn('fab-container', { open })}>
-        <li className="fab-button">
-          <FontAwesomeIcon
-            icon={faPlus}
-            color={ColorPalette.DARK_BLUE_2}
-            onClick={() => setOpen(!open)}
-          />
+        <li className="fab-button" onClick={() => setOpen(!open)}>
+          <FontAwesomeIcon icon={faPlus} color={ColorPalette.DARK_BLUE_2} />
         </li>
         {actions.map((action, index) => (
           <li

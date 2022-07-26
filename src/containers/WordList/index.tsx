@@ -1,7 +1,7 @@
 import * as React from 'react';
 import WordCard from '../../components/WordCard';
 import WordListContainer from './styles';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import Button from '../../components/core/Button/Button';
 import Loader from '../../components/core/Loader';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -11,6 +11,8 @@ import FlexContainer from '../../components/core/FlexContainer';
 import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from '../../redux/store';
 import { setFilter } from '../../redux/modules/filters';
+import { useLocalStorage } from 'react-use';
+import { Hanzi } from '../../types/xpolore';
 
 interface WordListProps {}
 
@@ -23,29 +25,44 @@ function WordList(props: WordListProps): JSX.Element {
   const [selected, setSelected] = useState(0);
   const { text } = useSelector((state: RootState) => state.filters);
   const { collection } = useSelector((state: RootState) => state.hanzis);
+  const [reviewedWords, setReviewedWords] = useLocalStorage<string[]>(
+    'words',
+    []
+  );
+  const [words, setWords] = useState<Hanzi[]>([]);
 
   const dispatch = useDispatch();
 
   function handleAction(action: Action) {
-    if (action === Action.Prev && selected !== 0) {
-      setSelected(selected - 1);
+    if (action === Action.Prev) {
+      setSelected(selected + 1);
       dispatch(setFilter(''));
       return;
     }
 
-    if (action === Action.Next && selected + 1 < collection.length) {
+    if (action === Action.Next && selected + 1 < words.length) {
       setSelected(selected + 1);
       dispatch(setFilter(''));
+      setReviewedWords([...reviewedWords, words[selected].id]);
     }
   }
 
+  useEffect(() => {
+    if (collection) {
+      const wordsToReview = collection.filter(
+        (item) => !reviewedWords.includes(item.id)
+      );
+      setWords(wordsToReview);
+    }
+  }, [collection]);
+
   return (
     <WordListContainer direction="column" justify="center" align="center">
-      {collection.length > 0 ? (
+      {words.length > 0 ? (
         <>
           <WordCard
-            key={collection[selected].id}
-            data={collection[selected]}
+            key={words[selected].id}
+            data={words[selected]}
             index={selected}
             selected={text}
           />

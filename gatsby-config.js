@@ -41,7 +41,7 @@ module.exports = {
         connectionString:
           'mongodb+srv://xmartinezpujol:bluesky87@cluster0.ehfaim6.mongodb.net',
         dbName: 'chinese',
-        collection: 'hanzi',
+        collection: ['hanzi', 'sentences'],
         server: {
           address: 'cluster0.ehfaim6.mongodb.net',
           port: 27017,

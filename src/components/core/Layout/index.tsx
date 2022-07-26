@@ -17,13 +17,15 @@ import {
 import { ColorPalette } from '../../../constant';
 import { navigate } from 'gatsby';
 import FAB from '../FAB';
-import { usePlaces } from '../../../hooks/usePlaces';
 import { useEffect } from 'react';
-import { setCollection } from '../../../redux/modules/hanzis';
 import { useDispatch } from 'react-redux';
+import { useSentences } from '../../../hooks/useSentences';
+import { usePlaces } from '../../../hooks/usePlaces';
+import { setCollection, setSentences } from '../../../redux/modules/hanzis';
 
 const Layout = ({ children }) => {
   const places = usePlaces();
+  const sentences = useSentences();
   const dispatch = useDispatch();
 
   const actions = [
@@ -54,6 +56,10 @@ const Layout = ({ children }) => {
   useEffect(() => {
     dispatch(setCollection(places.nodes));
   }, [places]);
+
+  useEffect(() => {
+    dispatch(setSentences(sentences.nodes));
+  }, [sentences]);
 
   return (
     <>

@@ -4,10 +4,12 @@ import { RootState } from '../store';
 
 export interface HanziState {
   collection: Hanzi[];
+  sentences: Hanzi[];
 }
 
 const initialState = {
   collection: [],
+  sentences: [],
 };
 
 export const socketSlice = createSlice({
@@ -16,6 +18,9 @@ export const socketSlice = createSlice({
   reducers: {
     setCollection: (state: HanziState, action) => {
       state.collection = action.payload;
+    },
+    setSentences: (state: HanziState, action) => {
+      state.sentences = action.payload;
     },
   },
   extraReducers: {},
@@ -29,6 +34,6 @@ export const sortedByEnHanzis = createSelector(
     )
 );
 
-export const { setCollection } = socketSlice.actions;
+export const { setCollection, setSentences } = socketSlice.actions;
 
 export default socketSlice.reducer;

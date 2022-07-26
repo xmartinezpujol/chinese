@@ -7,7 +7,7 @@ export interface Hanzi {
     es: string;
   };
   tags: string[];
-  type: HanziTypes;
+  type?: HanziTypes;
   coordinates: {
     lat: number;
     lng: number;
